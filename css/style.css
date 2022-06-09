@@ -25,6 +25,3 @@ img{
   max-width: 800px;
   margin: 0 20px;
 }
-.slide.ativo{
-  transform: translate3d(-200px, 0, 0);
-}
