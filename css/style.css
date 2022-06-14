@@ -17,7 +17,6 @@ img{
 }
 .slide{
   display: flex;
-
 }
 .slide li{
   flex-shrink: 0;
@@ -25,3 +24,4 @@ img{
   max-width: 800px;
   margin: 0 20px;
 }
+

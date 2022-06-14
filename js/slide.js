@@ -10,7 +10,7 @@ moveSlide(distX){
 }
 updatePosition(clientX){
   this.dist.movement = (this.dist.startX - clientX) * 1.6;
-  return this.dist.finalPosition - this.dist.movement
+  return this.dist.finalPosition - this.dist.movement;
 }
 onStart(e){
   let movetype;
@@ -18,7 +18,7 @@ onStart(e){
     e.preventDefault();
     this.dist.startX = e.clientX;
     movetype = 'mousemove';
-  } else{
+  } else {
     this.dist.startX = e.changedTouches[0].clientX;
     movetype = 'touchmove'
   }
@@ -31,9 +31,9 @@ onMove(e){
   this.moveSlide(finalPosition);
 }
 onEnd(e){
-  const moveType = (e.type === 'mouseup' ? 'mousemove' : 'touchmove')
+  const moveType = (e.type === 'mouseup' ? 'mousemove' : 'touchmove');
   this.wrapper.removeEventListener('mousemove', this.onMove);
-  this.dist.finalPosition = this.dist.movePosition
+  this.dist.finalPosition = this.dist.movePosition;
 
 }
 addSlideEvents(){
@@ -43,13 +43,87 @@ addSlideEvents(){
   this.wrapper.addEventListener('touchend', this.onEnd);
 }
 bindEvents(){
-  this.onStart = this.onStart.bind(this)
-  this.onMove = this.onMove.bind(this)
+  this.onStart = this.onStart.bind(this);
+  this.onMove = this.onMove.bind(this);
   this.onEnd = this.onEnd.bind(this)
 }
+
+// Slides config
+
+
+slidePosition(slide) {
+  const margin = (this.wrapper.offsetWidth - slide.offsetWidth) / 2;
+  return -(slide.offsetLeft - margin)
+}
+
+slidesConfig() {
+  this.slideArray = [...this.slide.children].map((element) => {
+    const position = this.slidePosition(element);
+    return { position, element };
+  });
+}
+slidesIndexNav(index){
+  const last = this.slideArray.length-1
+this.index = {
+prev: index ? index-1 : undefined,
+active: index,
+next: index === last ? undefined: index+1,
+}
+}
+changeSlide(index){
+  const activeSlide = this.slideArray[index];
+  this.moveSlide(activeSlide.position)
+  this.slidesIndexNav(index)
+  this.dist.finalPosition = activeSlide.position
+}
+
+
 init(){
   this.bindEvents();
   this.addSlideEvents();
+  this.slidesConfig();
   return this;
 }
 }
+
+
+
+
+
+
+
+
+
+// slidePosition(slide) {
+//   const margin = (this.wrapper.offsetWidth - slide.offsetWidth) / 2;
+//   return -(slide.offsetLeft - margin);
+// }
+
+// slidesConfig() {
+//   this.slideArray = [...this.slide.children].map((element) => {
+//     const position = this.slidePosition(element);
+//     return { position, element };
+//   });
+// }
+
+// slidesIndexNav(index) {
+//   const last = this.slideArray.length - 1;
+//   this.index = {
+//     prev: index ? index - 1 : undefined,
+//     active: index,
+//     next: index === last ? undefined : index + 1,
+//   }
+// }
+
+
+// slidePosition(slide){
+//   const margin = slide
+//   console.log(margin)
+// }
+
+// slidesConfig(){
+//   this.slideArray = [...this.slide.children].map((element) =>{
+//   const position = element.offsetLeft;
+//   return {element, position}
+// })
+// }
